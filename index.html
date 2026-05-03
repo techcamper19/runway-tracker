@@ -28,6 +28,13 @@
       --error: #ba1a1a;
       --positive: #176a45;
       --warning: #9a6200;
+      --warning-bg: #fff4dc;
+      --error-bg: #fff1ef;
+      --positive-bg: #eaf7ef;
+      --chart-grid: #d8dedb;
+      --chart-line: #051a17;
+      --chart-point: #ffffff;
+      --chart-text: #505f76;
       --white: #ffffff;
       --radius: 4px;
       --shadow: 0 18px 50px rgba(5, 26, 23, 0.06);
@@ -47,6 +54,14 @@
       --border-soft: #2b3632;
       --error: #ffb4ab;
       --positive: #8bd8ad;
+      --warning: #ffd27a;
+      --warning-bg: #3a2f15;
+      --error-bg: #3c1f1c;
+      --positive-bg: #173222;
+      --chart-grid: #52625d;
+      --chart-line: #b4ccc5;
+      --chart-point: #e7f1ed;
+      --chart-text: #b7c6c1;
       --white: #07100d;
       --shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
     }
@@ -163,7 +178,7 @@
     }
 
     .hero {
-      margin-bottom: 48px;
+      margin-bottom: 28px;
       max-width: 840px;
     }
 
@@ -189,11 +204,83 @@
       line-height: 1.6;
     }
 
+    .answer-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 28px;
+      align-items: start;
+      margin-bottom: 24px;
+      padding: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .answer-eyebrow {
+      margin-bottom: 12px;
+      color: var(--secondary);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .answer-title {
+      max-width: 860px;
+      color: var(--primary);
+      font-size: clamp(2rem, 4.4vw, 4.4rem);
+      line-height: 1.04;
+      font-weight: 800;
+    }
+
+    .answer-note {
+      max-width: 740px;
+      margin-top: 14px;
+      color: var(--secondary);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 108px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 9px 14px;
+      color: var(--primary);
+      background: var(--surface-low);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .status-pill.is-urgent {
+      border-color: color-mix(in srgb, var(--error) 50%, var(--border));
+      background: var(--error-bg);
+      color: var(--error);
+    }
+
+    .status-pill.is-watch {
+      border-color: color-mix(in srgb, var(--warning) 55%, var(--border));
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .status-pill.is-stable {
+      border-color: color-mix(in srgb, var(--positive) 45%, var(--border));
+      background: var(--positive-bg);
+      color: var(--positive);
+    }
+
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 24px;
-      margin-bottom: 48px;
+      margin-bottom: 32px;
     }
 
     .card,
@@ -204,8 +291,8 @@
     }
 
     .kpi-card {
-      min-height: 188px;
-      padding: 28px;
+      min-height: 154px;
+      padding: 22px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -223,7 +310,7 @@
 
     .kpi-value {
       color: var(--primary);
-      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      font-size: clamp(1.9rem, 3vw, 3rem);
       line-height: 1;
       font-weight: 800;
     }
@@ -432,38 +519,6 @@
       color: var(--positive);
     }
 
-    .meaning-text {
-      margin-top: 18px;
-      color: var(--primary);
-      font-size: 20px;
-      font-weight: 800;
-      line-height: 1.35;
-    }
-
-    .meaning-note {
-      margin-top: 12px;
-      color: var(--secondary);
-    }
-
-    .meaning-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid var(--border);
-    }
-
-    .meaning-list div {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      color: var(--secondary);
-    }
-
-    .meaning-list strong {
-      color: var(--primary);
-    }
-
     .history-panel {
       grid-column: 1 / -1;
       padding: 0;
@@ -509,7 +564,7 @@
 
     td {
       border-top: 1px solid rgba(194, 200, 197, 0.4);
-      padding: 20px 24px;
+      padding: 15px 24px;
       color: var(--primary);
       white-space: nowrap;
     }
@@ -603,6 +658,10 @@
       .history-panel {
         grid-column: 1 / -1;
       }
+
+      .answer-card {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 780px) {
@@ -644,6 +703,7 @@
       }
 
       .section-head,
+      .answer-card,
       .history-head,
       .footer-inner {
         align-items: flex-start;
@@ -690,6 +750,15 @@
     <section class="hero" aria-labelledby="pageTitle">
       <h1 id="pageTitle">How long will your bank balance last?</h1>
       <p>For people living with unstable income, Runway Tracker turns rent, bills, living costs, and current income into one plain answer: how many months your bank balance can keep you going.</p>
+    </section>
+
+    <section class="answer-card" aria-labelledby="answerTitle">
+      <div>
+        <div class="answer-eyebrow" id="answerEyebrow">Runway Answer</div>
+        <p class="answer-title" id="answerTitle">Add a snapshot to see how long your bank balance lasts.</p>
+        <p class="answer-note" id="answerNote">Use your current bank balance, monthly income, and monthly costs. Or load the Berlin demo to preview the app with sample data.</p>
+      </div>
+      <span class="status-pill" id="answerStatus">Start</span>
     </section>
 
     <section class="kpi-grid" aria-label="Financial summary">
@@ -759,12 +828,6 @@
           </form>
         </article>
 
-        <aside class="calculation-panel" aria-labelledby="calcTitle">
-          <h3 class="label" id="calcTitle">Runway Summary</h3>
-          <p class="meaning-text" id="meaningText">Add a monthly snapshot to see the plain-English result.</p>
-          <p class="meaning-note" id="meaningNote">Formula: monthly shortfall = monthly costs - income. Balance lasts = bank balance / monthly shortfall.</p>
-          <div class="meaning-list" id="meaningList" hidden></div>
-        </aside>
       </div>
 
       <article class="panel chart-panel" aria-labelledby="chartTitle">
@@ -794,7 +857,6 @@
                 <th class="numeric">Monthly Costs</th>
                 <th class="numeric">Shortfall</th>
                 <th class="numeric">Lasts</th>
-                <th class="numeric">Tracked</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -842,9 +904,10 @@
       cashOutKpi: document.getElementById("cashOutKpi"),
       burnNote: document.getElementById("burnNote"),
       cashOutNote: document.getElementById("cashOutNote"),
-      meaningText: document.getElementById("meaningText"),
-      meaningNote: document.getElementById("meaningNote"),
-      meaningList: document.getElementById("meaningList"),
+      answerEyebrow: document.getElementById("answerEyebrow"),
+      answerTitle: document.getElementById("answerTitle"),
+      answerNote: document.getElementById("answerNote"),
+      answerStatus: document.getElementById("answerStatus"),
       historyBody: document.getElementById("historyBody"),
       historyEmpty: document.getElementById("historyEmpty"),
       historyTableWrap: document.getElementById("historyTableWrap"),
@@ -931,8 +994,15 @@
       return date;
     }
 
-    function trackedBalance(snapshot) {
-      return snapshot.cash + snapshot.investments;
+    function isBerlinDemo() {
+      return state.snapshots.length > 0 && state.snapshots.every(snapshot => String(snapshot.id).startsWith("berlin-"));
+    }
+
+    function statusFor(runway, burn) {
+      if (burn <= 0 || runway === Infinity) return { label: "Stable", className: "is-stable" };
+      if (runway < 3) return { label: "Urgent", className: "is-urgent" };
+      if (runway < 6) return { label: "Watch", className: "is-watch" };
+      return { label: "Stable", className: "is-stable" };
     }
 
     function load() {
@@ -1027,49 +1097,43 @@
       els.burnNote.textContent = "Latest month: " + monthLabel(snapshot.month);
     }
 
-    function renderMeaning() {
+    function renderAnswer() {
       const snapshot = latestSnapshot();
       if (!snapshot) {
-        els.meaningText.textContent = "Add your first month, or load the Berlin demo, to see your runway.";
-        els.meaningNote.textContent = "This panel translates the numbers into a simple survival-time answer.";
-        els.meaningList.hidden = true;
-        els.meaningList.innerHTML = "";
+        els.answerEyebrow.textContent = "Runway Answer";
+        els.answerTitle.textContent = "Add a snapshot to see how long your bank balance lasts.";
+        els.answerNote.textContent = "Use your current bank balance, monthly income, and monthly costs. Or load the Berlin demo to preview the app with sample data.";
+        els.answerStatus.textContent = "Start";
+        els.answerStatus.className = "status-pill";
         return;
       }
 
-      const snaps = sortedSnapshots();
-      const first = snaps[0];
       const cash = snapshot.cash;
-      const income = snapshot.income;
-      const expenses = snapshot.expenses;
-      const burn = expenses - income;
+      const burn = burnFor(snapshot);
       const runway = runwayFor(cash, burn);
       const cashOut = cashOutDate(snapshot);
-      const balanceChange = snapshot.cash - first.cash;
       const monthName = monthLabel(snapshot.month);
 
-      els.meaningList.hidden = false;
-      els.meaningList.innerHTML = `
-        <div><span>Latest month</span><strong>${monthName}</strong></div>
-        <div><span>Bank balance</span><strong>${money(cash)}</strong></div>
-        <div><span>Monthly shortfall</span><strong>${burn > 0 ? money(burn) : "€0"}</strong></div>
-        <div><span>Balance change</span><strong>${money(balanceChange, true)}</strong></div>
-      `;
+      const status = statusFor(runway, burn);
+
+      els.answerEyebrow.textContent = isBerlinDemo() ? "Sample Berlin freelance scenario" : `Latest snapshot: ${monthName}`;
+      els.answerStatus.textContent = status.label;
+      els.answerStatus.className = `status-pill ${status.className}`;
 
       if (burn > 0) {
-        els.meaningText.textContent = `${monthName}: your bank balance lasts about ${runway.toFixed(1)} months at the current shortfall.`;
-        els.meaningNote.textContent = `You are short by ${money(burn)} this month. If nothing changes, the balance reaches zero around ${cashOut.toLocaleDateString("en-US", { month: "long", year: "numeric" })}. Investments are context only.`;
+        els.answerTitle.textContent = `Your bank balance lasts about ${runway.toFixed(1)} months.`;
+        els.answerNote.textContent = `You are short by ${money(burn)} this month. If nothing changes, the balance may reach zero around ${cashOut.toLocaleDateString("en-US", { month: "long", year: "numeric" })}.`;
         return;
       }
 
       if (burn < 0) {
-        els.meaningText.textContent = `${monthName}: income is covering monthly costs.`;
-        els.meaningNote.textContent = `You have ${money(Math.abs(burn))} left after costs this month, so there is no estimated zero date. Investments are context only.`;
+        els.answerTitle.textContent = "Your income covers your monthly costs.";
+        els.answerNote.textContent = `You have ${money(Math.abs(burn))} left after costs this month, so there is no estimated zero date.`;
         return;
       }
 
-      els.meaningText.textContent = `${monthName}: income and monthly costs are equal.`;
-      els.meaningNote.textContent = "Because there is no monthly shortfall, there is no estimated zero date.";
+      els.answerTitle.textContent = "Your bank balance is holding steady.";
+      els.answerNote.textContent = "Income and monthly costs are equal, so there is no monthly shortfall and no estimated zero date.";
     }
 
     function renderHistory() {
@@ -1093,7 +1157,6 @@
             <td class="numeric">${money(snapshot.expenses)}</td>
             <td class="numeric ${burnClass}">${shortfallText}</td>
             <td class="numeric">${runwayText}</td>
-            <td class="numeric">${money(trackedBalance(snapshot))}</td>
             <td>
               <div class="table-actions">
                 <button class="icon-button" type="button" data-action="edit" data-id="${snapshot.id}" title="Edit ${monthLabel(snapshot.month)}" aria-label="Edit ${monthLabel(snapshot.month)}">E</button>
@@ -1121,6 +1184,11 @@
       els.chartRange.textContent = data.length ? `${data.length} month${data.length === 1 ? "" : "s"}` : "Saved snapshots";
       if (data.length < 2) return;
 
+      const styles = getComputedStyle(document.documentElement);
+      const gridColor = styles.getPropertyValue("--chart-grid").trim();
+      const lineColor = styles.getPropertyValue("--chart-line").trim();
+      const pointColor = styles.getPropertyValue("--chart-point").trim();
+      const textColor = styles.getPropertyValue("--chart-text").trim();
       const padding = { top: 18, right: 20, bottom: 42, left: 56 };
       const innerWidth = width - padding.left - padding.right;
       const innerHeight = height - padding.top - padding.bottom;
@@ -1138,10 +1206,10 @@
         return padding.top + innerHeight - ((value - min) / range) * innerHeight;
       }
 
-      ctx.strokeStyle = "#e1e3e4";
+      ctx.strokeStyle = gridColor;
       ctx.lineWidth = 1;
       ctx.font = "12px Manrope, sans-serif";
-      ctx.fillStyle = "#727876";
+      ctx.fillStyle = textColor;
       ctx.textAlign = "right";
 
       for (let i = 0; i <= 4; i++) {
@@ -1161,15 +1229,15 @@
         if (index === 0) ctx.moveTo(pointX, pointY);
         else ctx.lineTo(pointX, pointY);
       });
-      ctx.strokeStyle = "#051a17";
+      ctx.strokeStyle = lineColor;
       ctx.lineWidth = 3;
       ctx.stroke();
 
       data.forEach((snapshot, index) => {
         const pointX = x(index);
         const pointY = y(snapshot.cash);
-        ctx.fillStyle = "#ffffff";
-        ctx.strokeStyle = "#051a17";
+        ctx.fillStyle = pointColor;
+        ctx.strokeStyle = lineColor;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(pointX, pointY, 5, 0, Math.PI * 2);
@@ -1178,7 +1246,7 @@
       });
 
       ctx.textAlign = "center";
-      ctx.fillStyle = "#505f76";
+      ctx.fillStyle = textColor;
       data.forEach((snapshot, index) => {
         ctx.fillText(monthLabel(snapshot.month, true).toUpperCase(), x(index), height - 12);
       });
@@ -1186,7 +1254,7 @@
 
     function render() {
       renderKpis();
-      renderMeaning();
+      renderAnswer();
       renderHistory();
       renderChart();
     }
@@ -1295,6 +1363,7 @@
       document.documentElement.dataset.theme = theme;
       els.theme.textContent = theme === "dark" ? "Light Mode" : "Dark Mode";
       localStorage.setItem(THEME_KEY, theme);
+      renderChart();
     }
 
     function loadTheme() {

@@ -42,9 +42,9 @@ That makes the app useful for freelancers, people between jobs, solo builders, r
 - Load a Berlin freelance demo with multiple months of sample data
 - Track bank balance, income, monthly costs, and optional investments
 - Calculate monthly shortfall
+- Show a top Runway Answer with status: Start, Urgent, Watch, or Stable
 - Estimate how many months the bank balance can last
 - Estimate the month the balance may reach zero
-- Show optional tracked balance with investments
 - Display a simple bank balance history chart after two or more snapshots
 - Show editable snapshot history
 - Delete individual snapshots or reset all local data
@@ -57,8 +57,9 @@ That makes the app useful for freelancers, people between jobs, solo builders, r
 
 - The app is a runway tool, not a full net-worth or budgeting dashboard.
 - Bank balance is the main input because rent and living costs are paid from available money.
-- Investments are optional context and are not used to calculate how long the bank balance lasts.
+- Investments are optional context in the form and are not used to calculate how long the bank balance lasts.
 - The chart only shows saved history, not future projection, to keep the MVP understandable.
+- The first screen leads with the plain answer before showing supporting dashboard numbers.
 - Data entry is manual because bank integrations would add scope, privacy concerns, and backend complexity.
 - Apartment buying, mortgage planning, and long-term wealth planning are intentionally out of scope.
 

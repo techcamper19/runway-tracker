@@ -66,9 +66,9 @@ The MVP includes:
 - Berlin example button
 - Multi-month Berlin demo data
 - Monthly shortfall calculation
+- Top Runway Answer with status
 - Months remaining calculation
 - Estimated zero date
-- Optional tracked balance
 - Monthly snapshot history
 - Edit and delete actions
 - Reset all local data
@@ -120,7 +120,7 @@ Apartment buying and long-term investing are valid financial questions, but they
 ## User Flow
 
 1. The user opens `index.html`.
-2. The dashboard explains the unstable-income use case.
+2. The top Runway Answer explains the unstable-income result in plain language.
 3. The user can load the Berlin demo or enter their own snapshot.
 4. The app calculates monthly shortfall, months remaining, and estimated zero date.
 5. The user saves the month to local history.
@@ -132,6 +132,7 @@ Apartment buying and long-term investing are valid financial questions, but they
 - A visitor understands the purpose without knowing finance terms.
 - A user can test the Berlin example quickly.
 - The app clearly explains why investments are optional context.
+- The first visible result is the runway answer, not a dense table or chart.
 - The chart does not look meaningful until there are at least two months.
 - Data persists locally across refreshes.
 - The project is clear enough to present on GitHub as a public portfolio MVP.
