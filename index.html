@@ -259,21 +259,21 @@
     }
 
     .status-pill.is-urgent {
-      border-color: color-mix(in srgb, var(--error) 50%, var(--border));
-      background: var(--error-bg);
-      color: var(--error);
+      border-color: var(--error);
+      background: var(--error);
+      color: var(--surface);
     }
 
     .status-pill.is-watch {
-      border-color: color-mix(in srgb, var(--warning) 55%, var(--border));
-      background: var(--warning-bg);
-      color: var(--warning);
+      border-color: var(--warning);
+      background: var(--warning);
+      color: #101413;
     }
 
     .status-pill.is-stable {
-      border-color: color-mix(in srgb, var(--positive) 45%, var(--border));
-      background: var(--positive-bg);
-      color: var(--positive);
+      border-color: var(--positive);
+      background: var(--positive);
+      color: #101413;
     }
 
     .kpi-grid {
@@ -339,7 +339,7 @@
       display: grid;
       grid-template-columns: minmax(320px, 4fr) minmax(0, 8fr);
       gap: 32px;
-      align-items: start;
+      align-items: stretch;
     }
 
     .panel {
@@ -373,12 +373,13 @@
     .chart-wrap {
       position: relative;
       min-height: 390px;
+      height: calc(100% - 58px);
     }
 
     #trendChart {
       display: block;
       width: 100%;
-      height: 390px;
+      height: 100%;
     }
 
     .chart-empty {
@@ -756,7 +757,7 @@
       <div>
         <div class="answer-eyebrow" id="answerEyebrow">Runway Answer</div>
         <p class="answer-title" id="answerTitle">Add a snapshot to see how long your bank balance lasts.</p>
-        <p class="answer-note" id="answerNote">Use your current bank balance, monthly income, and monthly costs. Or load the Berlin demo to preview the app with sample data.</p>
+        <p class="answer-note" id="answerNote">Use your current bank balance, monthly income, and monthly costs. Or load the demo to preview the app with sample data.</p>
       </div>
       <span class="status-pill" id="answerStatus">Start</span>
     </section>
@@ -821,10 +822,10 @@
               <input id="investmentInput" type="number" min="0" step="0.01" placeholder="Not used for runway">
             </div>
             <div class="form-actions">
-              <button class="example-button" type="button" id="exampleButton">Load Berlin Demo</button>
+              <button class="example-button" type="button" id="exampleButton">Load Demo</button>
               <button class="submit-button" type="submit" id="submitButton">Record Entry</button>
             </div>
-            <p class="form-hint">Loads May to September 2026 demo data for a Berlin freelancer living from savings.</p>
+            <p class="form-hint">Loads May to September 2026 sample data for a freelancer living from savings.</p>
           </form>
         </article>
 
@@ -837,7 +838,7 @@
         </div>
         <div class="chart-wrap">
           <canvas id="trendChart" width="900" height="390" aria-label="Bank balance trend chart"></canvas>
-          <div class="chart-empty" id="chartEmpty">Load the Berlin demo or save at least two different months to draw a clear balance trend.</div>
+          <div class="chart-empty" id="chartEmpty">Load the demo or save at least two different months to draw a clear balance trend.</div>
         </div>
       </article>
 
@@ -1102,7 +1103,7 @@
       if (!snapshot) {
         els.answerEyebrow.textContent = "Runway Answer";
         els.answerTitle.textContent = "Add a snapshot to see how long your bank balance lasts.";
-        els.answerNote.textContent = "Use your current bank balance, monthly income, and monthly costs. Or load the Berlin demo to preview the app with sample data.";
+        els.answerNote.textContent = "Use your current bank balance, monthly income, and monthly costs. Or load the demo to preview the app with sample data.";
         els.answerStatus.textContent = "Start";
         els.answerStatus.className = "status-pill";
         return;
@@ -1116,7 +1117,7 @@
 
       const status = statusFor(runway, burn);
 
-      els.answerEyebrow.textContent = isBerlinDemo() ? "Sample Berlin freelance scenario" : `Latest snapshot: ${monthName}`;
+      els.answerEyebrow.textContent = isBerlinDemo() ? "Sample demo scenario" : `Latest snapshot: ${monthName}`;
       els.answerStatus.textContent = status.label;
       els.answerStatus.className = `status-pill ${status.className}`;
 
@@ -1334,7 +1335,7 @@
 
     function loadBerlinDemo() {
       if (state.snapshots.length) {
-        const confirmed = confirm("Replace your current local snapshots with the Berlin demo?");
+        const confirmed = confirm("Replace your current local snapshots with the demo?");
         if (!confirmed) return;
       }
 
