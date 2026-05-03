@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Runway Tracker</title>
-  <meta name="description" content="A local-first cash runway tracker for understanding monthly burn, liquid cash, and financial runway.">
+  <meta name="description" content="A local-first runway tracker for understanding how long a bank balance can cover rent and living expenses when income is unstable.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -33,6 +33,24 @@
       --shadow: 0 18px 50px rgba(5, 26, 23, 0.06);
     }
 
+    [data-theme="dark"] {
+      --background: #101413;
+      --surface: #171d1b;
+      --surface-muted: #202725;
+      --surface-low: #26302d;
+      --primary: #e7f1ed;
+      --primary-soft: #b4ccc5;
+      --secondary: #a9b8b3;
+      --text: #eef5f2;
+      --muted: #8fa09a;
+      --border: #3e4b47;
+      --border-soft: #2b3632;
+      --error: #ffb4ab;
+      --positive: #8bd8ad;
+      --white: #07100d;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+    }
+
     html {
       scroll-behavior: smooth;
     }
@@ -40,10 +58,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background:
-        linear-gradient(135deg, rgba(5, 26, 23, 0.035), transparent 36%),
-        linear-gradient(315deg, rgba(80, 95, 118, 0.05), transparent 32%),
-        var(--background);
+      background: var(--background);
       color: var(--text);
       font-family: Manrope, sans-serif;
       font-size: 15px;
@@ -64,12 +79,16 @@
       text-decoration: none;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
     .topbar {
       position: sticky;
       top: 0;
       z-index: 20;
       border-bottom: 1px solid var(--border-soft);
-      background: rgba(255, 255, 255, 0.88);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
       backdrop-filter: blur(20px);
     }
 
@@ -109,6 +128,14 @@
       outline: none;
     }
 
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .top-button,
     .reset-button {
       border: 1px solid var(--border);
       background: var(--surface);
@@ -121,6 +148,8 @@
       text-transform: uppercase;
     }
 
+    .top-button:hover,
+    .top-button:focus-visible,
     .reset-button:hover,
     .reset-button:focus-visible {
       background: var(--surface-low);
@@ -219,24 +248,9 @@
       font-style: italic;
     }
 
-    .progress-track {
-      width: 100%;
-      height: 8px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: var(--surface-muted);
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0;
-      background: var(--primary);
-      transition: width 220ms ease;
-    }
-
     .content-grid {
       display: grid;
-      grid-template-columns: minmax(0, 8fr) minmax(320px, 4fr);
+      grid-template-columns: minmax(320px, 4fr) minmax(0, 8fr);
       gap: 32px;
       align-items: start;
     }
@@ -299,6 +313,35 @@
     .snapshot-form {
       display: grid;
       gap: 22px;
+    }
+
+    .form-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .example-button {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--primary);
+      padding: 13px 14px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .example-button:hover,
+    .example-button:focus-visible {
+      background: var(--surface-low);
+      outline: none;
+    }
+
+    .form-hint {
+      color: var(--secondary);
+      font-size: 13px;
     }
 
     .field {
@@ -387,6 +430,38 @@
 
     .calculation-row .is-positive {
       color: var(--positive);
+    }
+
+    .meaning-text {
+      margin-top: 18px;
+      color: var(--primary);
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .meaning-note {
+      margin-top: 12px;
+      color: var(--secondary);
+    }
+
+    .meaning-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meaning-list div {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--secondary);
+    }
+
+    .meaning-list strong {
+      color: var(--primary);
     }
 
     .history-panel {
@@ -488,7 +563,7 @@
 
     .footer {
       border-top: 1px solid var(--border-soft);
-      background: rgba(255, 255, 255, 0.74);
+      background: color-mix(in srgb, var(--surface) 74%, transparent);
       padding: 32px;
     }
 
@@ -536,6 +611,15 @@
         padding: 18px 20px;
         align-items: flex-start;
         flex-direction: column;
+      }
+
+      .top-actions {
+        width: 100%;
+      }
+
+      .top-button,
+      .reset-button {
+        flex: 1;
       }
 
       .nav-links {
@@ -594,57 +678,50 @@
         <a href="#snapshot">Snapshot</a>
         <a href="#history">History</a>
       </nav>
-      <button class="reset-button" type="button" id="resetButton">Reset Data</button>
+      <div class="top-actions">
+        <button class="top-button" type="button" id="themeButton">Dark Mode</button>
+        <button class="top-button" type="button" id="exportButton">Export JSON</button>
+        <button class="reset-button" type="button" id="resetButton">Reset Data</button>
+      </div>
     </div>
   </header>
 
   <main id="dashboard">
     <section class="hero" aria-labelledby="pageTitle">
-      <h1 id="pageTitle">Cash runway, without the overhead.</h1>
-      <p>Runway Tracker helps freelancers, job seekers, and solo builders understand how long their available cash can last based on income, expenses, and monthly burn.</p>
+      <h1 id="pageTitle">How long will your bank balance last?</h1>
+      <p>For people living with unstable income, Runway Tracker turns rent, bills, living costs, and current income into one plain answer: how many months your bank balance can keep you going.</p>
     </section>
 
     <section class="kpi-grid" aria-label="Financial summary">
       <article class="card kpi-card">
-        <span class="label">Liquid Cash</span>
-        <strong class="kpi-value" id="cashKpi">$0</strong>
-        <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="cashProgress"></div></div>
+        <span class="label">Bank Balance</span>
+        <strong class="kpi-value" id="cashKpi">€0</strong>
+        <span class="kpi-note">Money available to spend</span>
       </article>
 
       <article class="card kpi-card">
-        <span class="label">Monthly Burn</span>
-        <strong class="kpi-value" id="burnKpi">$0</strong>
-        <span class="kpi-note" id="burnNote">Based on latest snapshot</span>
+        <span class="label">Monthly Shortfall</span>
+        <strong class="kpi-value" id="burnKpi">€0</strong>
+        <span class="kpi-note" id="burnNote">Expenses minus income</span>
       </article>
 
       <article class="card kpi-card">
-        <span class="label">Runway Remaining</span>
+        <span class="label">Balance Lasts</span>
         <div>
           <strong class="kpi-value" id="runwayKpi">0</strong>
           <span class="kpi-unit" id="runwayUnit">months</span>
         </div>
-        <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="runwayProgress"></div></div>
+        <span class="kpi-note">Bank balance divided by monthly shortfall</span>
       </article>
 
       <article class="card kpi-card">
-        <span class="label">Cash-Out Date</span>
+        <span class="label">Estimated Zero Date</span>
         <strong class="kpi-value" id="cashOutKpi">--</strong>
-        <span class="kpi-note" id="cashOutNote">Based on current burn rate</span>
+        <span class="kpi-note" id="cashOutNote">If nothing changes</span>
       </article>
     </section>
 
     <section class="content-grid">
-      <article class="panel chart-panel" aria-labelledby="chartTitle">
-        <div class="section-head">
-          <h2 id="chartTitle">Cash Balance Trend</h2>
-          <span class="section-note" id="chartRange">Saved snapshots</span>
-        </div>
-        <div class="chart-wrap">
-          <canvas id="trendChart" width="900" height="390" aria-label="Cash balance trend chart"></canvas>
-          <div class="chart-empty" id="chartEmpty">Save at least one monthly snapshot to start tracking your balance trend.</div>
-        </div>
-      </article>
-
       <div class="side-stack" id="snapshot">
         <article class="panel" aria-labelledby="formTitle">
           <div class="section-head">
@@ -657,45 +734,49 @@
               <input id="monthInput" type="month" required>
             </div>
             <div class="field">
-              <label for="cashInput">Liquid Cash</label>
-              <input id="cashInput" type="number" min="0" step="0.01" placeholder="42500" required>
+              <label for="cashInput">Bank Balance</label>
+              <input id="cashInput" type="number" min="0" step="0.01" placeholder="5000" required>
             </div>
             <div class="field-row">
               <div class="field">
-                <label for="incomeInput">Income</label>
-                <input id="incomeInput" type="number" min="0" step="0.01" placeholder="3200" required>
+                <label for="incomeInput">Income This Month</label>
+                <input id="incomeInput" type="number" min="0" step="0.01" placeholder="400" required>
               </div>
               <div class="field">
-                <label for="expenseInput">Expenses</label>
-                <input id="expenseInput" type="number" min="0" step="0.01" placeholder="5300" required>
+                <label for="expenseInput">Monthly Costs</label>
+                <input id="expenseInput" type="number" min="0" step="0.01" placeholder="1600" required>
               </div>
             </div>
             <div class="field">
               <label for="investmentInput">Investments Optional</label>
-              <input id="investmentInput" type="number" min="0" step="0.01" placeholder="15000">
+              <input id="investmentInput" type="number" min="0" step="0.01" placeholder="Not used for runway">
             </div>
-            <button class="submit-button" type="submit" id="submitButton">Record Entry</button>
+            <div class="form-actions">
+              <button class="example-button" type="button" id="exampleButton">Load Berlin Demo</button>
+              <button class="submit-button" type="submit" id="submitButton">Record Entry</button>
+            </div>
+            <p class="form-hint">Loads May to September 2026 demo data for a Berlin freelancer living from savings.</p>
           </form>
         </article>
 
         <aside class="calculation-panel" aria-labelledby="calcTitle">
-          <h3 class="label" id="calcTitle">Real-Time Calculation</h3>
-          <div class="calculation-list">
-            <div class="calculation-row">
-              <span>Net Monthly Burn</span>
-              <span id="liveBurn">$0</span>
-            </div>
-            <div class="calculation-row">
-              <span>Runway Estimate</span>
-              <span id="liveRunway">0 months</span>
-            </div>
-            <div class="calculation-row">
-              <strong>Tracked Balance</strong>
-              <span id="liveTracked">$0</span>
-            </div>
-          </div>
+          <h3 class="label" id="calcTitle">Runway Summary</h3>
+          <p class="meaning-text" id="meaningText">Add a monthly snapshot to see the plain-English result.</p>
+          <p class="meaning-note" id="meaningNote">Formula: monthly shortfall = monthly costs - income. Balance lasts = bank balance / monthly shortfall.</p>
+          <div class="meaning-list" id="meaningList" hidden></div>
         </aside>
       </div>
+
+      <article class="panel chart-panel" aria-labelledby="chartTitle">
+        <div class="section-head">
+          <h2 id="chartTitle">Bank Balance Over Time</h2>
+          <span class="section-note" id="chartRange">Saved snapshots</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="trendChart" width="900" height="390" aria-label="Bank balance trend chart"></canvas>
+          <div class="chart-empty" id="chartEmpty">Load the Berlin demo or save at least two different months to draw a clear balance trend.</div>
+        </div>
+      </article>
 
       <article class="panel history-panel" id="history" aria-labelledby="historyTitle">
         <div class="history-head">
@@ -708,11 +789,11 @@
             <thead>
               <tr>
                 <th>Month</th>
-                <th class="numeric">Cash</th>
+                <th class="numeric">Bank Balance</th>
                 <th class="numeric">Income</th>
-                <th class="numeric">Expenses</th>
-                <th class="numeric">Burn</th>
-                <th class="numeric">Runway</th>
+                <th class="numeric">Monthly Costs</th>
+                <th class="numeric">Shortfall</th>
+                <th class="numeric">Lasts</th>
                 <th class="numeric">Tracked</th>
                 <th>Actions</th>
               </tr>
@@ -735,6 +816,7 @@
     const STORAGE_KEY = "runwayTracker_v1";
     const LEGACY_KEY = "runwayTracker_v2";
     const OLD_DASHBOARD_KEY = "finDashboard_v1";
+    const THEME_KEY = "runwayTracker_theme";
 
     const state = {
       snapshots: []
@@ -749,6 +831,9 @@
       expenses: document.getElementById("expenseInput"),
       investments: document.getElementById("investmentInput"),
       submit: document.getElementById("submitButton"),
+      example: document.getElementById("exampleButton"),
+      theme: document.getElementById("themeButton"),
+      export: document.getElementById("exportButton"),
       reset: document.getElementById("resetButton"),
       cashKpi: document.getElementById("cashKpi"),
       burnKpi: document.getElementById("burnKpi"),
@@ -757,11 +842,9 @@
       cashOutKpi: document.getElementById("cashOutKpi"),
       burnNote: document.getElementById("burnNote"),
       cashOutNote: document.getElementById("cashOutNote"),
-      cashProgress: document.getElementById("cashProgress"),
-      runwayProgress: document.getElementById("runwayProgress"),
-      liveBurn: document.getElementById("liveBurn"),
-      liveRunway: document.getElementById("liveRunway"),
-      liveTracked: document.getElementById("liveTracked"),
+      meaningText: document.getElementById("meaningText"),
+      meaningNote: document.getElementById("meaningNote"),
+      meaningList: document.getElementById("meaningList"),
       historyBody: document.getElementById("historyBody"),
       historyEmpty: document.getElementById("historyEmpty"),
       historyTableWrap: document.getElementById("historyTableWrap"),
@@ -770,6 +853,14 @@
       chartEmpty: document.getElementById("chartEmpty"),
       chartRange: document.getElementById("chartRange")
     };
+
+    const berlinDemoSnapshots = [
+      { id: "berlin-2026-05", month: "2026-05", cash: 5000, income: 400, expenses: 1600, investments: 0 },
+      { id: "berlin-2026-06", month: "2026-06", cash: 3800, income: 400, expenses: 1600, investments: 0 },
+      { id: "berlin-2026-07", month: "2026-07", cash: 2600, income: 800, expenses: 1600, investments: 0 },
+      { id: "berlin-2026-08", month: "2026-08", cash: 1800, income: 400, expenses: 1600, investments: 0 },
+      { id: "berlin-2026-09", month: "2026-09", cash: 600, income: 600, expenses: 1600, investments: 0 }
+    ];
 
     function toMonth(date) {
       return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0");
@@ -791,9 +882,14 @@
     function money(value, signed = false) {
       const amount = Number.isFinite(value) ? value : 0;
       const sign = signed && amount > 0 ? "+" : amount < 0 ? "-" : "";
-      return sign + "$" + Math.abs(amount).toLocaleString("en-US", {
+      return sign + "€" + Math.abs(amount).toLocaleString("en-US", {
         maximumFractionDigits: 0
       });
+    }
+
+    function axisMoney(value) {
+      if (Math.abs(value) >= 1000) return "€" + Math.round(value / 1000) + "k";
+      return "€" + Math.round(value);
     }
 
     function numberValue(input) {
@@ -831,7 +927,7 @@
       const runway = runwayFor(snapshot.cash, burn);
       if (!Number.isFinite(runway)) return null;
       const date = monthDate(snapshot.month);
-      date.setMonth(date.getMonth() + Math.ceil(runway));
+      date.setMonth(date.getMonth() + Math.floor(runway));
       return date;
     }
 
@@ -898,26 +994,22 @@
       const snapshot = latestSnapshot();
 
       if (!snapshot) {
-        els.cashKpi.textContent = "$0";
-        els.burnKpi.textContent = "$0";
+        els.cashKpi.textContent = "€0";
+        els.burnKpi.textContent = "€0";
         els.burnKpi.className = "kpi-value";
         els.runwayKpi.textContent = "0";
         els.runwayUnit.textContent = "months";
         els.cashOutKpi.textContent = "--";
-        els.burnNote.textContent = "Based on latest snapshot";
-        els.cashOutNote.textContent = "Based on current burn rate";
-        els.cashProgress.style.width = "0%";
-        els.runwayProgress.style.width = "0%";
+        els.burnNote.textContent = "Expenses minus income";
+        els.cashOutNote.textContent = "If nothing changes";
         return;
       }
 
       const burn = burnFor(snapshot);
       const runway = runwayFor(snapshot.cash, burn);
       const cashOut = cashOutDate(snapshot);
-      const maxCash = Math.max(...state.snapshots.map(item => item.cash), snapshot.cash, 1);
-
       els.cashKpi.textContent = money(snapshot.cash);
-      els.burnKpi.textContent = burn > 0 ? "-" + money(burn) : money(Math.abs(burn), true);
+      els.burnKpi.textContent = burn > 0 ? money(burn) : "€0";
       els.burnKpi.className = "kpi-value " + (burn > 0 ? "is-negative" : burn < 0 ? "is-positive" : "");
 
       if (runway === Infinity) {
@@ -925,31 +1017,59 @@
         els.runwayUnit.textContent = "";
         els.cashOutKpi.textContent = "None";
         els.cashOutNote.textContent = "Income currently covers expenses";
-        els.runwayProgress.style.width = "100%";
       } else {
         els.runwayKpi.textContent = runway.toFixed(1);
         els.runwayUnit.textContent = "months";
         els.cashOutKpi.textContent = cashOut.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-        els.cashOutNote.textContent = "Based on current burn rate";
-        els.runwayProgress.style.width = Math.min((runway / 18) * 100, 100) + "%";
+        els.cashOutNote.textContent = "If nothing changes";
       }
 
       els.burnNote.textContent = "Latest month: " + monthLabel(snapshot.month);
-      els.cashProgress.style.width = Math.min((snapshot.cash / maxCash) * 100, 100) + "%";
     }
 
-    function renderLiveCalculation() {
-      const cash = numberValue(els.cash);
-      const income = numberValue(els.income);
-      const expenses = numberValue(els.expenses);
-      const investments = numberValue(els.investments);
+    function renderMeaning() {
+      const snapshot = latestSnapshot();
+      if (!snapshot) {
+        els.meaningText.textContent = "Add your first month, or load the Berlin demo, to see your runway.";
+        els.meaningNote.textContent = "This panel translates the numbers into a simple survival-time answer.";
+        els.meaningList.hidden = true;
+        els.meaningList.innerHTML = "";
+        return;
+      }
+
+      const snaps = sortedSnapshots();
+      const first = snaps[0];
+      const cash = snapshot.cash;
+      const income = snapshot.income;
+      const expenses = snapshot.expenses;
       const burn = expenses - income;
       const runway = runwayFor(cash, burn);
+      const cashOut = cashOutDate(snapshot);
+      const balanceChange = snapshot.cash - first.cash;
+      const monthName = monthLabel(snapshot.month);
 
-      els.liveBurn.textContent = burn > 0 ? "-" + money(burn) : money(Math.abs(burn), true);
-      els.liveBurn.className = burn > 0 ? "is-negative" : burn < 0 ? "is-positive" : "";
-      els.liveRunway.textContent = runway === Infinity ? "Stable" : runway.toFixed(1) + " months";
-      els.liveTracked.textContent = money(cash + investments);
+      els.meaningList.hidden = false;
+      els.meaningList.innerHTML = `
+        <div><span>Latest month</span><strong>${monthName}</strong></div>
+        <div><span>Bank balance</span><strong>${money(cash)}</strong></div>
+        <div><span>Monthly shortfall</span><strong>${burn > 0 ? money(burn) : "€0"}</strong></div>
+        <div><span>Balance change</span><strong>${money(balanceChange, true)}</strong></div>
+      `;
+
+      if (burn > 0) {
+        els.meaningText.textContent = `${monthName}: your bank balance lasts about ${runway.toFixed(1)} months at the current shortfall.`;
+        els.meaningNote.textContent = `You are short by ${money(burn)} this month. If nothing changes, the balance reaches zero around ${cashOut.toLocaleDateString("en-US", { month: "long", year: "numeric" })}. Investments are context only.`;
+        return;
+      }
+
+      if (burn < 0) {
+        els.meaningText.textContent = `${monthName}: income is covering monthly costs.`;
+        els.meaningNote.textContent = `You have ${money(Math.abs(burn))} left after costs this month, so there is no estimated zero date. Investments are context only.`;
+        return;
+      }
+
+      els.meaningText.textContent = `${monthName}: income and monthly costs are equal.`;
+      els.meaningNote.textContent = "Because there is no monthly shortfall, there is no estimated zero date.";
     }
 
     function renderHistory() {
@@ -962,6 +1082,7 @@
         const burn = burnFor(snapshot);
         const runway = runwayFor(snapshot.cash, burn);
         const burnClass = burn > 0 ? "burn-negative" : burn < 0 ? "burn-positive" : "";
+        const shortfallText = burn > 0 ? money(burn) : "€0";
         const runwayText = runway === Infinity ? "Stable" : runway.toFixed(1) + " mo";
 
         return `
@@ -970,7 +1091,7 @@
             <td class="numeric">${money(snapshot.cash)}</td>
             <td class="numeric">${money(snapshot.income)}</td>
             <td class="numeric">${money(snapshot.expenses)}</td>
-            <td class="numeric ${burnClass}">${burn > 0 ? "-" + money(burn) : money(Math.abs(burn), true)}</td>
+            <td class="numeric ${burnClass}">${shortfallText}</td>
             <td class="numeric">${runwayText}</td>
             <td class="numeric">${money(trackedBalance(snapshot))}</td>
             <td>
@@ -996,9 +1117,9 @@
       ctx.clearRect(0, 0, width, height);
 
       const data = sortedSnapshots();
-      els.chartEmpty.hidden = data.length > 0;
+      els.chartEmpty.hidden = data.length >= 2;
       els.chartRange.textContent = data.length ? `${data.length} month${data.length === 1 ? "" : "s"}` : "Saved snapshots";
-      if (!data.length) return;
+      if (data.length < 2) return;
 
       const padding = { top: 18, right: 20, bottom: 42, left: 56 };
       const innerWidth = width - padding.left - padding.right;
@@ -1030,7 +1151,7 @@
         ctx.moveTo(padding.left, lineY);
         ctx.lineTo(width - padding.right, lineY);
         ctx.stroke();
-        ctx.fillText("$" + Math.round(value / 1000) + "k", padding.left - 10, lineY + 4);
+        ctx.fillText(axisMoney(value), padding.left - 10, lineY + 4);
       }
 
       ctx.beginPath();
@@ -1065,7 +1186,7 @@
 
     function render() {
       renderKpis();
-      renderLiveCalculation();
+      renderMeaning();
       renderHistory();
       renderChart();
     }
@@ -1075,7 +1196,6 @@
       els.submit.textContent = "Record Entry";
       els.form.reset();
       els.month.value = toMonth(new Date());
-      renderLiveCalculation();
     }
 
     function handleSubmit(event) {
@@ -1128,7 +1248,6 @@
       els.expenses.value = snapshot.expenses;
       els.investments.value = snapshot.investments || "";
       els.submit.textContent = "Update Entry";
-      renderLiveCalculation();
       document.getElementById("snapshot").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
@@ -1145,6 +1264,49 @@
       render();
     }
 
+    function loadBerlinDemo() {
+      if (state.snapshots.length) {
+        const confirmed = confirm("Replace your current local snapshots with the Berlin demo?");
+        if (!confirmed) return;
+      }
+
+      state.snapshots = berlinDemoSnapshots.map(snapshot => ({ ...snapshot }));
+      save();
+      resetForm();
+      render();
+    }
+
+    function exportJSON() {
+      const payload = JSON.stringify({
+        app: "Runway Tracker",
+        exportedAt: new Date().toISOString(),
+        snapshots: sortedSnapshots()
+      }, null, 2);
+      const blob = new Blob([payload], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `runway-tracker-${toMonth(new Date())}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      els.theme.textContent = theme === "dark" ? "Light Mode" : "Dark Mode";
+      localStorage.setItem(THEME_KEY, theme);
+    }
+
+    function loadTheme() {
+      const saved = localStorage.getItem(THEME_KEY);
+      applyTheme(saved === "dark" ? "dark" : "light");
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+      applyTheme(current === "dark" ? "light" : "dark");
+    }
+
     function seedDefaultMonth() {
       if (!els.month.value) els.month.value = toMonth(new Date());
     }
@@ -1152,11 +1314,12 @@
     els.form.addEventListener("submit", handleSubmit);
     els.historyBody.addEventListener("click", handleHistoryClick);
     els.reset.addEventListener("click", handleReset);
-    [els.cash, els.income, els.expenses, els.investments].forEach(input => {
-      input.addEventListener("input", renderLiveCalculation);
-    });
+    els.example.addEventListener("click", loadBerlinDemo);
+    els.export.addEventListener("click", exportJSON);
+    els.theme.addEventListener("click", toggleTheme);
     window.addEventListener("resize", renderChart);
 
+    loadTheme();
     load();
     seedDefaultMonth();
     render();
